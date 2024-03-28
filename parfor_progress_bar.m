@@ -133,18 +133,20 @@ if mod(BarStyle(),2)==0 % 0(commandbar only) or 2(both)
     w = 50; % Width of progress bar
     percent=100*current/total;
     perc = sprintf('%5.1f%%', percent); % 5 characters wide, percentage
+    formatString='%s';
     if current==0
         wdispmsg=0;
         dispmsg=['  0.0%[>', repmat(' ', 1, w), ']', msg];
     elseif current==total
-        dispmsg=['100.0%[', repmat('=', 1, w+1), ']\n', msg]; % add a line break when complete
+        dispmsg=['100.0%[', repmat('=', 1, w+1), ']', msg];
+        formatString='%s\n';
     else
         dispmsg=[perc, '[', repmat('=', 1, round(percent*w/100)), '>', repmat(' ', 1, w - round(percent*w/100)), ']', msg];
     end
     backstring=repmat(char(8), 1, wdispmsg);
     if BackspaceOn()
         fprintf(backstring);
-        wdispmsg=fprintf('%s',dispmsg);
+        wdispmsg=fprintf(formatString,dispmsg);
     else
         disp(dispmsg);
     end
